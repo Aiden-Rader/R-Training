@@ -8,7 +8,7 @@ This is a small, self-contained RStudio practice project. Open **RStudio Trainin
 |---|---|
 | `docs/markdown/Training Guide.md` | Main beginner-to-intermediate guide |
 | `docs/markdown/RStudio Shortcuts.md` | Quick keyboard reference |
-| `docs/markdown/Reproducible Reports and Obsidian.md` | R Markdown, Obsidian, seeds, and Git tutorial |
+| `docs/markdown/Reproducible Reports and Obsidian.md` | R Markdown, knitr, Obsidian, and seeds |
 | `docs/html/` | Optional HTML copies of the documents |
 | `scripts/basics/` | Short scripts for learning R syntax and analysis |
 | `scripts/swirl-interactive/` | Interactive `swirl` lesson launcher |
