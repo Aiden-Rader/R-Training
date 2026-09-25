@@ -1,0 +1,60 @@
+---
+title: "A Small Reproducible R Report"
+author: ""
+date: "`r Sys.Date()`"
+output: github_document
+---
+
+This report shows how Markdown text, R code, tables, and plots can live together. It uses R's built-in `iris` dataset.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE,
+                      fig.width = 7, fig.height = 5)
+set.seed(42)
+library(dplyr)
+library(ggplot2)
+```
+
+## Inspect the data
+
+```{r inspect}
+head(iris)
+summary(iris)
+```
+
+## Summarize by group
+
+```{r summary}
+species_summary <- iris |>
+  group_by(Species) |>
+  summarise(
+    n = n(),
+    mean_petal_length = mean(Petal.Length),
+    sd_petal_length = sd(Petal.Length),
+    .groups = "drop"
+  )
+species_summary
+```
+
+## Plot the observations
+
+```{r plot}
+ggplot(iris, aes(Sepal.Length, Petal.Length, color = Species)) +
+  geom_point(size = 2) +
+  labs(title = "Iris measurements",
+       x = "Sepal length", y = "Petal length") +
+  theme_minimal()
+```
+
+## Fit a simple model
+
+```{r model}
+fit <- lm(Petal.Length ~ Sepal.Length + Species, data = iris)
+summary(fit)
+```
+
+The report is only as reproducible as its source data, code, package versions, and analysis decisions. For an important project, record `sessionInfo()` in an appendix or a separate text file.
+
+```{r session, echo=FALSE}
+sessionInfo()
+```
