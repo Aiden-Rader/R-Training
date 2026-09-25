@@ -33,7 +33,11 @@ species_summary <- iris |>
     sd_petal_length = sd(Petal.Length),
     .groups = "drop"
   )
-species_summary
+knitr::kable(
+  species_summary,
+  digits = 2,
+  caption = "Summary of petal length by species"
+)
 ```
 
 ## Plot the observations

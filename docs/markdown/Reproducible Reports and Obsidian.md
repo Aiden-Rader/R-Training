@@ -28,6 +28,43 @@ fig.height = 5    # figure height in inches
 
 Use `echo = TRUE` while learning. Hide code only in a final report when the reader does not need to inspect the implementation.
 
+## Making a report look polished
+
+The formatted Reliability Engineering documents used the standard R Markdown workflow: a YAML header, Markdown headings, knitr code chunks, and rendered output. `knitr` is the engine that runs the chunks and places their results into the document. The YAML header controls the title page and output format.
+
+```yaml
+---
+title: "Analysis of the Example Data"
+subtitle: "Summary, visualization, and model"
+author: "Your Name"
+date: "`r Sys.Date()`"
+output: html_document
+---
+```
+
+Change `html_document` to `pdf_document` for a PDF or `word_document` for a Word file. PDF output may require a LaTeX installation; HTML is usually the easiest first format. `github_document` creates a Markdown report that works well with GitHub and Obsidian.
+
+Use headings to give the reader a path through the analysis:
+
+```markdown
+## Question
+## Data and cleaning
+## Results
+## Limitations
+```
+
+For clean tables, use `knitr::kable()` rather than printing a raw data frame. It works especially well when the table is created inside a code chunk:
+
+```r
+knitr::kable(
+  species_summary,
+  digits = 2,
+  caption = "Summary of petal length by species"
+)
+```
+
+Keep the narrative next to the result it explains. A reader should be able to tell what question a plot or table answers, what the important number means, and what limitation remains. Use `echo = FALSE` for setup code and `message = FALSE` to keep package startup messages out of the final document, while showing the analysis code when transparency matters.
+
 ## Why `set.seed()` matters
 
 Random functions such as `runif()`, `rnorm()`, and `sample()` use a stream of pseudo-random numbers. `set.seed()` chooses the starting point of that stream. The result is still simulated, but another person can rerun the code and obtain the same example.
@@ -47,22 +84,3 @@ Use a seed for simulations, examples, random train/test splits, bootstrapping, a
 Obsidian reads Markdown directly. A rendered report can be linked from a larger note with a normal Markdown link such as `[analysis report](../reports/example_report.md)`. Obsidian also supports internal links, so a note can link to `[[RStudio Shortcuts]]` or `[[Training Guide]]` when those files are in the same vault.
 
 Keep raw data, source reports, generated reports, and exported figures distinguishable. If a report contains private or identifying data, keep it out of a public Obsidian vault or public Git repository.
-
-## Turning the project into a Git repository
-
-Git records changes to text files, scripts, reports, and documentation. From the project root, the first setup is:
-
-```text
-git init
-git add README.md docs scripts data reports
-git commit -m "Start RStudio training project"
-```
-
-Add a `.gitignore` before committing generated files, private data, and RStudio's `.Rproj.user/` folder. A later update is usually:
-
-```text
-git add .
-git commit -m "Add analysis example"
-```
-
-Git is especially useful here because the `.Rmd` source, data-cleaning script, and rendered report can be compared over time. Do not commit confidential data or passwords.
